@@ -36,13 +36,27 @@ const createPayroll = async (req, res) => {
 // @access  Private
 const getPayroll = async (req, res) => {
   try {
+    let payrolls;
     if (req.user.role === 'Admin' || req.user.role === 'HR') {
-      const payrolls = await Payroll.find({}).populate('user', 'name empid department');
-      res.json(payrolls);
+      payrolls = await Payroll.find({}).populate('user', 'name empid department');
     } else {
-      const payrolls = await Payroll.find({ user: req.user._id });
-      res.json(payrolls);
+      payrolls = await Payroll.find({ user: req.user._id });
     }
+
+    const records = payrolls.map(p => ({
+      ...p._doc,
+      id: p._id,
+      salary: p.net,
+      date: p.createdAt,
+      breakdown: {
+        basic: p.basic,
+        hra: p.hra,
+        allowances: p.allowance,
+        deductions: p.tax // mapping tax to deductions for simplicity
+      }
+    }));
+
+    res.json({ records });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

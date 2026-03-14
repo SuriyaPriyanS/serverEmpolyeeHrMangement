@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 
 const sentimentReportSchema = mongoose.Schema({
-  weekStart: { type: Date, default: Date.now }, // Start of the week or report date
+  weekStart: { type: Date, default: Date.now },
   overallScore: { type: Number },
-  departmentBreakdown: { type: Map, of: Number }, // e.g. { 'Engineering': 80, 'Sales': 60 }
-  reportContent: { type: String }, // AI summary
-  dataPoints: [{ day: String, mood: Number, productivity: Number }], // For charts
+  departmentBreakdown: { type: Map, of: Number },
+  reportContent: { type: String },
+  report: { type: String },
+  dataPoints: [{ day: String, mood: Number, productivity: Number }],
+  dataUsed: mongoose.Schema.Types.Mixed,
 }, { timestamps: true });
 
 const SentimentReport = mongoose.model('SentimentReport', sentimentReportSchema);

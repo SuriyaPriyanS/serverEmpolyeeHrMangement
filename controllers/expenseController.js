@@ -5,13 +5,31 @@ import Expense from '../models/Expense.js';
 // @access  Private
 const getExpenses = async (req, res) => {
   try {
+    let expenses;
     if (req.user.role === 'Admin' || req.user.role === 'HR') {
-       const expenses = await Expense.find({}).populate('user', 'name');
-       res.json(expenses);
+       expenses = await Expense.find({}).populate('user', 'name');
     } else {
-       const expenses = await Expense.find({ user: req.user._id });
-       res.json(expenses);
+       expenses = await Expense.find({ user: req.user._id });
     }
+
+    const records = expenses.map(e => ({
+      ...e._doc,
+      id: e._id
+    }));
+
+    // Calculate basic stats for the frontend
+    const totalAmount = records.reduce((acc, curr) => acc + curr.amount, 0);
+    const pendingAmount = records.filter(e => e.status === 'Pending').reduce((acc, curr) => acc + curr.amount, 0);
+
+    res.json({
+      records,
+      stats: {
+        pending: `$${pendingAmount.toLocaleString()}`,
+        thisMonth: `$${totalAmount.toLocaleString()}`,
+        avgProcessing: '2 Days',
+        taxDeductible: `$${(totalAmount * 0.15).toLocaleString()}` // Mock calc
+      }
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

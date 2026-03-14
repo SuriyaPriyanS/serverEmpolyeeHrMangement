@@ -61,13 +61,31 @@ const clockOut = async (req, res) => {
 // @access  Private (Admin/HR sees all, Employee sees own)
 const getAttendance = async (req, res) => {
   try {
+    let attendance;
     if (req.user.role === 'Admin' || req.user.role === 'HR') {
-      const attendance = await Attendance.find({}).populate('user', 'name email');
-      res.json(attendance);
+      attendance = await Attendance.find({}).populate('user', 'name email');
     } else {
-      const attendance = await Attendance.find({ user: req.user._id });
-      res.json(attendance);
+      attendance = await Attendance.find({ user: req.user._id });
     }
+
+    // Transform data to match frontend expectations if necessary
+    const records = attendance.map(rec => ({
+      ...rec._doc,
+      employee: rec.user ? { name: rec.user.name, department: rec.user.department || 'N/A' } : null,
+      checkIn: rec.clockIn,
+      checkOut: rec.clockOut
+    }));
+
+    res.json({
+      records,
+      stats: {
+        total: records.length,
+        present: records.filter(r => r.status === 'Present').length,
+        absent: 0, // Simplified
+        late: 0, // Simplified
+        percentage: 100 // Simplified
+      }
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

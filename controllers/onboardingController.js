@@ -23,23 +23,23 @@ const getPlan = async (req, res) => {
 // @access  Private (Admin/HR)
 const createPlan = async (req, res) => {
   try {
-    const { user, role, department } = req.body;
+    const { user, role, department, plan } = req.body;
     
-    // Mock AI Generation of tasks
+    // Default tasks if not provided
     const tasks = [
       { title: 'Setup Company Email', dueDate: new Date() },
       { title: 'Complete Compliance Training', dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
       { title: 'Meet the Team', dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000) },
     ];
     
-    const plan = await OnboardingPlan.create({
-      user,
+    const onboardingPlan = await OnboardingPlan.create({
+      user: user || req.user._id,
       role,
       department,
-      generatedPlan: `Onboarding plan for ${role} in ${department}`,
+      generatedPlan: plan || `Onboarding plan for ${role} in ${department}`,
       tasks
     });
-    res.status(201).json(plan);
+    res.status(201).json(onboardingPlan);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

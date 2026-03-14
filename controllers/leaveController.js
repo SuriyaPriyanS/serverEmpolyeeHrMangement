@@ -9,9 +9,12 @@ const requestLeave = async (req, res) => {
   try {
     const { type, startDate, endDate, reason } = req.body;
 
+    // Normalize type if coming from component as 'Sick Leave'
+    const normalizedType = type === 'Sick Leave' ? 'Sick' : type;
+
     const leave = await Leave.create({
       user: req.user._id,
-      leaveType: type, // Assuming 'type' from req.body maps to 'leaveType' in the model
+      type: normalizedType,
       startDate,
       endDate,
       reason,
@@ -38,13 +41,35 @@ const requestLeave = async (req, res) => {
 // @access  Private
 const getLeaveRequests = async (req, res) => {
   try {
+    let leaves;
     if (req.user.role === 'Admin' || req.user.role === 'HR') {
-      const leaves = await Leave.find({}).populate('user', 'name email');
-      res.json(leaves);
+      leaves = await Leave.find({}).populate('user', 'name email');
     } else {
-      const leaves = await Leave.find({ user: req.user._id });
-      res.json(leaves);
+      leaves = await Leave.find({ user: req.user._id });
     }
+
+    const requests = leaves.map(l => {
+      const start = new Date(l.startDate);
+      const end = new Date(l.endDate);
+      const diffTime = Math.abs(end.getTime() - start.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      
+      return {
+        ...l._doc,
+        id: l._id,
+        type: l.type === 'Sick' ? 'Sick Leave' : l.type,
+        days: diffDays
+      };
+    });
+
+    res.json({
+      balances: [
+        { type: 'Vacation', used: requests.filter(r => r.type === 'Vacation' && r.status === 'Approved').reduce((acc, r) => acc + r.days, 0), total: 15, color: 'indigo' },
+        { type: 'Sick Leave', used: requests.filter(r => r.type === 'Sick Leave' && r.status === 'Approved').reduce((acc, r) => acc + r.days, 0), total: 10, color: 'rose' },
+        { type: 'Personal', used: requests.filter(r => r.type === 'Personal' && r.status === 'Approved').reduce((acc, r) => acc + r.days, 0), total: 5, color: 'emerald' },
+      ],
+      requests
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

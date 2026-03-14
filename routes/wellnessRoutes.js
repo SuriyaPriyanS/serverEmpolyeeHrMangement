@@ -5,7 +5,11 @@ import {
   getSentimentReports,
   createSentimentReport,
   getWellnessLogs,
-  createWellnessLog
+  createWellnessLog,
+  getCareerPaths,
+  createCareerPath,
+  getSocialEvents,
+  createSocialEvent
 } from '../controllers/wellnessController.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
 
@@ -26,5 +30,15 @@ router.route('/pulse')
 router.route('/logs')
   .get(protect, getWellnessLogs)
   .post(protect, createWellnessLog);
+
+// Career Path
+router.route('/career')
+  .get(protect, getCareerPaths)
+  .post(protect, createCareerPath);
+
+// Social Planner
+router.route('/social')
+  .get(protect, getSocialEvents)
+  .post(protect, createSocialEvent);
 
 export default router;

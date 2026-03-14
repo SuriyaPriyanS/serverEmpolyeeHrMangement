@@ -6,7 +6,24 @@ import Document from '../models/Document.js';
 const getDocuments = async (req, res) => {
   try {
     const documents = await Document.find({}).populate('uploadedBy', 'name');
-    res.json(documents);
+    
+    const mappedDocs = documents.map(d => ({
+      ...d._doc,
+      id: d._id,
+      date: d.createdAt
+    }));
+
+    const folders = [
+      { name: 'Company Policies', count: mappedDocs.filter(d => d.category === 'Policy').length, color: 'indigo' },
+      { name: 'Employee Benefits', count: mappedDocs.filter(d => d.category === 'Benefit').length, color: 'rose' },
+      { name: 'Handbooks', count: mappedDocs.filter(d => d.category === 'Handbook').length, color: 'amber' },
+      { name: 'IT Support', count: mappedDocs.filter(d => d.category === 'IT').length, color: 'emerald' },
+    ];
+
+    res.json({
+      documents: mappedDocs,
+      folders
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

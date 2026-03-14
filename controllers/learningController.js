@@ -6,7 +6,12 @@ import Course from '../models/Course.js';
 const getCourses = async (req, res) => {
   try {
     const courses = await Course.find({});
-    res.json(courses);
+    res.json({
+      courses: courses.map(c => ({
+        ...c._doc,
+        id: c._id
+      }))
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

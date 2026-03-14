@@ -7,7 +7,7 @@ import notificationService from '../utils/notificationService.js';
 const getPostings = async (req, res) => {
   try {
     const postings = await JobPosting.find({});
-    res.json(postings);
+    res.json({ postings });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

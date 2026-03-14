@@ -7,7 +7,12 @@ import notificationService from '../utils/notificationService.js';
 const getEmployees = async (req, res) => {
   try {
     const employees = await User.find({}).select('-password');
-    res.json(employees);
+    res.json({
+      employees: employees.map(emp => ({
+        ...emp._doc,
+        id: emp._id
+      }))
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

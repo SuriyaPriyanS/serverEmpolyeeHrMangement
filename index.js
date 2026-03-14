@@ -18,6 +18,7 @@ import expenseRoutes from './routes/expenseRoutes.js';
 import kudosRoutes from './routes/kudosRoutes.js';
 import standupRoutes from './routes/standupRoutes.js';
 import wellnessRoutes from './routes/wellnessRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/kudos', kudosRoutes);
 app.use('/api/standup', standupRoutes);
 app.use('/api/wellness', wellnessRoutes);
+app.use('/api/ai', aiRoutes);
 
 const PORT = process.env.PORT || 5000;
 
