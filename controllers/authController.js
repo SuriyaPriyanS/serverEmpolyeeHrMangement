@@ -1,4 +1,4 @@
-import User from '../models/User.js';
+﻿import User from '../models/User.js';
 import generateToken from '../utils/generateToken.js';
 
 // @desc    Auth user & get token
@@ -10,7 +10,7 @@ const authUser = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await user.matchPassword(password))) {
-    const token = generateToken( res , user._id);
+    const token = generateToken(res, user._id);
 
     res.json({
       _id: user._id,
@@ -19,7 +19,7 @@ const authUser = async (req, res) => {
       role: user.role,
       department: user.department,
       avatar: user.avatar,
-      token: user.token // ✅ TOKEN ADDED
+      token,
     });
   } else {
     res.status(401).json({ message: 'Invalid email or password' });

@@ -1,0 +1,54 @@
+
+> server@1.0.0 dev
+> nodemon index.js
+
+[33m[nodemon] 3.1.4[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node index.js`[39m
+[dotenv@17.2.3] injecting env (6) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔑 add access controls to secrets: https://dotenvx.com/ops
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Cloudinary configured with cloud name: EmployeeManagementSystem
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+Server running on port 5000
+MongoDB Connected: ac-ihazvuv-shard-00-02.wjitftl.mongodb.net
+Error sending email: Error: Missing credentials for "PLAIN"
+    at SMTPConnection._formatError (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-connection\index.js:809:19)
+    at SMTPConnection.login (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-connection\index.js:454:38)
+    at C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-transport\index.js:277:32
+    at SMTPConnection.<anonymous> (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-connection\index.js:215:17)
+    at Object.onceWrapper (node:events:633:28)
+    at SMTPConnection.emit (node:events:519:28)
+    at SMTPConnection._actionEHLO (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-connection\index.js:1398:14)
+    at SMTPConnection._processResponse (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-connection\index.js:993:20)
+    at SMTPConnection._onData (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-connection\index.js:774:14)
+    at SMTPConnection._onSocketData (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\nodemailer\lib\smtp-connection\index.js:195:44) {
+  code: 'EAUTH',
+  command: 'API'
+}
+[object Object]
+[object Object]
+ValidationError: User validation failed: role: `HR Manager` is not a valid enum value for path `role`.
+    at Document.invalidate (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:3379:32)
+    at validatePath (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:3154:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Promise.all (index 3)
+    at async model.$__validate (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:3095:3)
+    at async model.validate (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:2672:5)
+    at async model.validateBeforeSave (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\plugins\validateBeforeSave.js:34:7)
+    at async Kareem.execPre (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\kareem\index.js:65:24)
+    at async model.$__save (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\model.js:369:5)
+    at async model.save (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\model.js:609:5)
+ValidationError: User validation failed: role: `HR Manager` is not a valid enum value for path `role`.
+    at Document.invalidate (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:3379:32)
+    at validatePath (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:3154:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Promise.all (index 3)
+    at async model.$__validate (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:3095:3)
+    at async model.validate (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\document.js:2672:5)
+    at async model.validateBeforeSave (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\plugins\validateBeforeSave.js:34:7)
+    at async Kareem.execPre (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\kareem\index.js:65:24)
+    at async model.$__save (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\model.js:369:5)
+    at async model.save (C:\Users\Suriya\Downloads\nexushr---modern-employee-management-platform\server\node_modules\mongoose\lib\model.js:609:5)
